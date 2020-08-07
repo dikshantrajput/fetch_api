@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Sanchez&display=swap" rel="stylesheet">
+    <title>Chopta</title>
+
+<style>
+    *{
+        padding:0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    .wrapper{
+        height:100vh;
+        width:100%;
+        background-image:linear-gradient(45deg,rgb(88, 52, 248),rgb(124, 218, 250));
+    }
+    .card{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        background-color: whitesmoke;
+        padding:2em;
+        width:90%;
+        margin:0 auto;
+        box-shadow:0px 4px 8px 0px rgba(0,0,0,0.4),
+                    inset 0px 2px 4px 0px rgba(0,0,0,0.1);
+        border-radius:15px;
+    }
+    .card-title h1{
+        text-align:center;
+        font-size: 2.5em;
+        font-weight:500;
+        color:rgb(47, 0, 255);   
+    }
+    .card-body{
+        display: flex;
+    }
+    .card-image{
+        padding:2em 0;
+    }
+    .card-detail{
+        padding:2em;
+        font-family: 'Sanchez', serif;
+    }
+    #content{
+        line-height: 1.6em;
+    }
+    #chopta_image{
+        max-width:450px;
+        height:auto;
+        object-fit:cover;
+        border-radius: 5px;
+    }
+    .location{
+        font-size:0.8em;
+    }
+    #url{
+        text-decoration: none;
+        color: rgb(47, 0, 255);
+    }
+    @media only screen and (max-width:950px){
+        #content{
+            line-height:unset;
+        }
+        #chopta_image{
+            max-width:300px;
+        }
+    }
+    @media only screen and (max-width:768px){
+        .card{
+            width:95%;
+            padding:1em;
+            border-radius: 10px;
+        }
+        .card-body{
+            flex-direction: column;
+            align-items: center;
+        }
+        .card-detail{
+            padding:0;
+            text-align: justify;
+        }
+        #chopta_image{
+            max-width:400px;
+        }
+        .card-image{
+            padding: 1em;
+        }
+    }
+    @media only screen and (max-width:480px){
+        #chopta_image{
+            max-width:280px;
+        }
+        .card-title h1{
+            font-size: 2em;
+        }
+    }
+</style>
+
+</head>
+<body>
+    
+
+    <div class="wrapper">
+        <div class="card">
+            <div class="card-title">
+                <h1><span id="heading"></span><span id="location" class="location"></span></h1>
+            </div>
+            <div class="card-body">
+                <div class="card-image">
+                    <img src="" alt="chopta_image" id="chopta_image">
+                </div>
+                <div class="card-detail"> 
+                    <p id="content"></p>
+                    <p style="padding:0em 0" class="url-container"><a id="url" href="" target="_blank">More details</a></p>
+                    </div>
+            </div>
+            
+        </div>
+        
+    </div>
+
+<script type="text/javascript">
+
+    const chopta_image = document.getElementById('chopta_image');
+    const chopta_location = document.getElementById('location');
+    const chopta_content = document.getElementById('content');
+    const chopta_heading = document.getElementById('heading');
+    const chopta_url = document.getElementById('url');
+
+    const api = async ()=>{
+        const response = await fetch('http://node.uttarakhandtraveller.com/places/1');
+        const data = await response.json();
+        return data;
+    }
+
+    api().then((data)=>{
+        var place = data.place;
+        var name = place.name;
+        var details = place.detail;
+        var image = place.image;
+        var location = place.location;
+        var url = place.place_url;
+
+        chopta_image.setAttribute("src",image);
+        chopta_location.innerHTML=location;
+        chopta_content.innerHTML=details;
+        chopta_heading.innerHTML=name;
+        chopta_url.setAttribute("href",url);
+    });
+</script>
+</body>
+</html>
